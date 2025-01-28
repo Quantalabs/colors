@@ -10,66 +10,105 @@ A library for generating color palettes from a given color.
 
 ### Table of Contents
 
-*   [constructor][1]
+*   [Color][1]
     *   [Parameters][2]
-*   [toString][3]
-*   [complementary][4]
-*   [splitComplementary][5]
-*   [triadic][6]
-*   [tetradic][7]
-*   [monochromatic][8]
-    *   [Parameters][9]
-*   [analogous][10]
-    *   [Parameters][11]
+    *   [toString][3]
+    *   [complementary][4]
+    *   [splitComplementary][5]
+    *   [triadic][6]
+    *   [tetradic][7]
+    *   [monochromatic][8]
+    *   [analogous][9]
 
-## constructor
+## Color
+
+A class representing a color in the HSV color space.
 
 ### Parameters
 
-*   `h` **[number][12]** Hue in degrees (0-360)
-*   `s` **[number][12]** Saturation (0-1)
-*   `v` **[number][12]** Value (0-1)
+*   `h` **[number][10]** Hue in degrees (0-360)
+*   `s` **[number][10]** Saturation (0-1)
+*   `v` **[number][10]** Value (0-1)
 
-## toString
+### toString
 
 Returns a string representation of the color in the form "hsv(h,s,v)",
 where h is the hue in degrees, s is the saturation, and v is the value.
 
-Returns **[string][13]**&#x20;
+#### Examples
 
-## complementary
+```javascript
+const color = new Color(180, 0.5, 0.5);
+console.log(color.toString()); // "hsv(180,0.5,0.5)"
+```
+
+Returns **[string][11]**&#x20;
+
+### complementary
 
 Returns a color that is the complementary color of this color.
 The complementary color is the color directly across the color wheel
 from this color.
 
-Returns **Color**&#x20;
+#### Examples
 
-## splitComplementary
+```javascript
+const color = new Color(180, 0.5, 0.5);
+const comp = color.complementary();
+console.log(comp.toString()); // "hsv(0,0.5,0.5)"
+```
+
+Returns **[Color][1]**&#x20;
+
+### splitComplementary
 
 Returns an array of two colors that are split complementary to this color.
 Split complementary colors are colors that are adjacent to the complementary
 color of this color on the color wheel.
 
-Returns **[Array][14]\<Color>**&#x20;
+#### Examples
 
-## triadic
+```javascript
+const color = new Color(180, 0.5, 0.5);
+const splits = color.splitComplementary();
+console.log(splits.map(c => c.toString())); // ["hsv(150,0.5,0.5)", "hsv(210,0.5,0.5)"]
+```
+
+Returns **[Array][12]<[Color][1]>**&#x20;
+
+### triadic
 
 Returns an array of two colors that are triadic to this color.
 Triadic colors are colors that are equally spaced from this color on the color wheel.
 
-Returns **[Array][14]\<Color>**&#x20;
+#### Examples
 
-## tetradic
+```javascript
+const color = new Color(180, 0.5, 0.5);
+const triads = color.triadic();
+console.log(triads.map(c => c.toString())); // ["hsv(300,0.5,0.5)", "hsv(60,0.5,0.5)"]
+```
+
+Returns **[Array][12]<[Color][1]>**&#x20;
+
+### tetradic
 
 Returns an array of three colors that are tetradic to this color.
 Tetradic colors are four colors arranged into two complementary pairs
 on the color wheel. This method returns the three colors that complete
 the tetradic scheme based on this color.
 
-Returns **[Array][14]\<Color>**&#x20;
+#### Examples
 
-## monochromatic
+```javascript
+const color = new Color(180, 0.5, 0.5);
+const tetrads = color.tetradic();
+console.log(tetrads.map(c => c.toString())); // ["hsv(90,0.5,0.5)", "hsv(0,0.5,0.5)", "hsv(270,0.5,0.5)"]
+```
+
+Returns **[Array][12]<[Color][1]>**&#x20;
+
+### monochromatic
 
 Returns an array of n colors that are monochromatic to this color.
 Monochromatic colors are colors that have the same hue as this color.
@@ -78,30 +117,46 @@ value and saturation increasing or decreasing by the given step size.
 The value and saturation of the colors will be increased or decreased
 depending on the value of d.
 
-### Parameters
+#### Parameters
 
-*   `n` **[number][12]** The number of colors to generate. Defaults to 3. (optional, default `3`)
-*   `d` **[number][12]** A number that determines whether the colors will be
+*   `n` **[number][10]** The number of colors to generate. Defaults to 3. (optional, default `3`)
+*   `d` **[number][10]** A number that determines whether the colors will be
     generated in a positive or negative direction. 1
     will generate colors with increasing saturation and
     value, while -1 will generate colors with decreasing
     saturation and value. Defaults to 1. (optional, default `1`)
 
-Returns **[Array][14]\<Color>**&#x20;
+#### Examples
 
-## analogous
+```javascript
+const color = new Color(180, 0.5, 0.5);
+const monochromes = color.monochromatic(3, 1);
+console.log(monochromes.map(c => c.toString())); // ["hsv(180,0.67,0.67)", "hsv(180,0.83,0.83)", "hsv(180,1,1)"]
+```
+
+Returns **[Array][12]<[Color][1]>**&#x20;
+
+### analogous
 
 Returns an array of colors that are analogous to this color.
 Analogous colors are colors that are adjacent to each other on the color wheel.
 This method generates `n` analogous colors by varying the hue of this color.
 
-### Parameters
+#### Parameters
 
-*   `n` **[number][12]** The number of analogous colors to generate. Defaults to 3. (optional, default `3`)
+*   `n` **[number][10]** The number of analogous colors to generate. Defaults to 3. (optional, default `3`)
 
-Returns **[Array][14]\<Color>**&#x20;
+#### Examples
 
-[1]: #constructor
+```javascript
+const color = new Color(180, 0.5, 0.5);
+const analogs = color.analogous(3);
+console.log(analogs.map(c => c.toString())); // ["hsv(210,0.5,0.5)", "hsv(150,0.5,0.5)", "hsv(120,0.5,0.5)"]
+```
+
+Returns **[Array][12]<[Color][1]>**&#x20;
+
+[1]: #color
 
 [2]: #parameters
 
@@ -117,16 +172,12 @@ Returns **[Array][14]\<Color>**&#x20;
 
 [8]: #monochromatic
 
-[9]: #parameters-1
+[9]: #analogous
 
-[10]: #analogous
+[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[11]: #parameters-2
+[11]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[12]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
-
-[13]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-
-[14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[12]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
 <!-- apistop -->
